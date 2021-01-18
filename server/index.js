@@ -2,7 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
-import postRoutes from "./routes/posts.js";
+import postRouter from "./routes/posts.js";
+import userRouter from "./routes/user.js";
 import dotenv from "dotenv";
 import morgan from "morgan";
 dotenv.config();
@@ -16,10 +17,14 @@ app.use(cors());
 app.use(morgan("dev"));
 
 // Routes
-app.use("/posts", postRoutes);
+app.get("/", (req, res) => {
+  res.send("Hello to Memories API");
+});
+app.use("/posts", postRouter);
+app.use("/user", userRouter);
 
 // Listen and Connect to DB
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 mongoose
   .connect(process.env.MONGO_URI, {
